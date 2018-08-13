@@ -13,7 +13,7 @@ public class ListStudentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_students);
 
         String[] students = {"Julia", "Isabelle", "Ivana", "John"};
-        ListView lvStudents = findViewById(R.id.lvStudents);
+        ListView lvStudents = findViewById(R.id.listStudents_students);
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, students);
         lvStudents.setAdapter(adapter);
     }
