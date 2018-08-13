@@ -10,6 +10,7 @@
         android:id="@+id/listStudents_students" />
 
     <Button
+        android:id="@+id/listStudents_add"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:text="+"
