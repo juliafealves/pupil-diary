@@ -31,4 +31,20 @@ public class Student {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 }

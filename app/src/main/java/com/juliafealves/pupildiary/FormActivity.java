@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.juliafealves.pupildiary.dao.StudentDao;
+import com.juliafealves.pupildiary.model.Student;
+
 public class FormActivity extends AppCompatActivity {
 
     private FormHelper formHelper;
@@ -27,7 +30,11 @@ public class FormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_form_save:
-                Toast.makeText(FormActivity.this, "Student " + this.formHelper.getStudent().getName() + " saved!", Toast.LENGTH_SHORT).show();
+                Student student = this.formHelper.getStudent();
+                StudentDao dao = new StudentDao(this);
+                dao.insert(student);
+                dao.close();
+                Toast.makeText(FormActivity.this, "Student " + student.getName() + " saved!", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
