@@ -47,4 +47,13 @@ public class Student {
     public String getPhone() {
         return phone;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + " - " + this.name;
+    }
 }
