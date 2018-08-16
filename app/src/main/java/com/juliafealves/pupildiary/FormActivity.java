@@ -39,7 +39,12 @@ public class FormActivity extends AppCompatActivity {
             case R.id.menu_form_save:
                 Student student = this.formHelper.getStudent();
                 StudentDao dao = new StudentDao(this);
-                dao.insert(student);
+
+                if(student.getId() == null)
+                    dao.insert(student);
+                else
+                    dao.update(student);
+
                 dao.close();
                 Toast.makeText(FormActivity.this, "Student " + student.getName() + " saved!", Toast.LENGTH_SHORT).show();
                 finish();

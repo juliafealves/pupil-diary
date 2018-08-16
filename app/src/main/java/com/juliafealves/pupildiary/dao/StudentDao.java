@@ -44,13 +44,7 @@ public class StudentDao extends SQLiteOpenHelper {
      */
     public void insert(Student student) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("name", student.getName());
-        values.put("address", student.getAddress());
-        values.put("phone", student.getPhone());
-        values.put("website", student.getWebsite());
-        values.put("rate", student.getRate());
-        db.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_NAME, null, this.getContentValues(student));
     }
 
     /**
@@ -79,9 +73,39 @@ public class StudentDao extends SQLiteOpenHelper {
         return students;
     }
 
+    /**
+     * Remove a student of database.
+     * @param student Object Student.
+     */
     public void remove(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         String[] whereArgs = { student.getId().toString() };
         db.delete(TABLE_NAME, "id = ?", whereArgs);
+    }
+
+    /**
+     * Update a student of database.
+     * @param student Object Student.
+     */
+    public void update(Student student) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] whereArgs = { student.getId().toString() };
+        db.update(TABLE_NAME, this.getContentValues(student), "id = ?", whereArgs);
+    }
+
+    /**
+     * Return ContentValues with student's data.
+     * @param student Object student
+     * @return ContentValues of students.
+     */
+    private ContentValues getContentValues(Student student) {
+        ContentValues values = new ContentValues();
+        values.put("name", student.getName());
+        values.put("address", student.getAddress());
+        values.put("phone", student.getPhone());
+        values.put("website", student.getWebsite());
+        values.put("rate", student.getRate());
+
+        return values;
     }
 }
