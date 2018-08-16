@@ -19,12 +19,6 @@ public class ListStudentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_students);
-        StudentDao dao = new StudentDao(this);
-        List<Student> students = dao.findAll();
-
-        ListView lvStudents = findViewById(R.id.listStudents_students);
-        ArrayAdapter adapter = new ArrayAdapter<Student>(this, android.R.layout.simple_list_item_1, students);
-        lvStudents.setAdapter(adapter);
 
         Button add = findViewById(R.id.listStudents_add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -34,5 +28,24 @@ public class ListStudentsActivity extends AppCompatActivity {
                 startActivity(openForm);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.createListStudents();
+    }
+
+    /**
+     * Create the ListView of students, with query in database.
+     */
+    private void createListStudents() {
+        StudentDao dao = new StudentDao(this);
+        List<Student> students = dao.findAll();
+        dao.close();
+
+        ListView lvStudents = findViewById(R.id.listStudents_students);
+        ArrayAdapter<Student> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
+        lvStudents.setAdapter(adapter);
     }
 }
