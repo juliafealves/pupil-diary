@@ -56,4 +56,8 @@ public class Student {
     public String toString() {
         return this.id + " - " + this.name;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

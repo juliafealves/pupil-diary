@@ -3,7 +3,10 @@ package com.juliafealves.pupildiary;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,10 +18,14 @@ import java.util.List;
 
 public class ListStudentsActivity extends AppCompatActivity {
 
+    private ListView lvStudents;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_students);
+
+        lvStudents = findViewById(R.id.listStudents_students);
 
         Button add = findViewById(R.id.listStudents_add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +35,29 @@ public class ListStudentsActivity extends AppCompatActivity {
                 startActivity(openForm);
             }
         });
+
+        registerForContextMenu(lvStudents);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add("Remove").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                Student student = (Student) lvStudents.getItemAtPosition(info.position);
+
+                StudentDao dao = new StudentDao(ListStudentsActivity.this);
+                dao.remove(student);
+                dao.close();
+
+                createListStudents();
+
+                return false;
+            }
+        });
+
+
     }
 
     @Override
@@ -44,7 +74,6 @@ public class ListStudentsActivity extends AppCompatActivity {
         List<Student> students = dao.findAll();
         dao.close();
 
-        ListView lvStudents = findViewById(R.id.listStudents_students);
         ArrayAdapter<Student> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, students);
         lvStudents.setAdapter(adapter);
     }
