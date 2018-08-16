@@ -1,5 +1,6 @@
 package com.juliafealves.pupildiary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,12 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
         this.formHelper = new FormHelper(this);
+
+        Intent intent = getIntent();
+        Student student = (Student) getIntent().getSerializableExtra("student");
+
+        if(student != null)
+            formHelper.fill(student);
     }
 
     @Override

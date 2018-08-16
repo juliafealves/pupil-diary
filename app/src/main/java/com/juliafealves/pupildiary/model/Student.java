@@ -1,6 +1,8 @@
 package com.juliafealves.pupildiary.model;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private Long id;
     private String name;
     private String address;
@@ -52,12 +54,12 @@ public class Student {
         this.id = id;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return this.id + " - " + this.name;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

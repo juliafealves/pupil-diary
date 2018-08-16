@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.juliafealves.pupildiary.dao.StudentDao;
 import com.juliafealves.pupildiary.model.Student;
@@ -26,6 +27,16 @@ public class ListStudentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_students);
 
         lvStudents = findViewById(R.id.listStudents_students);
+
+        lvStudents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Student student = (Student) parent.getItemAtPosition(position);
+                Intent intent = new Intent(ListStudentsActivity.this, FormActivity.class);
+                intent.putExtra("student", student);
+                startActivity(intent);
+            }
+        });
 
         Button add = findViewById(R.id.listStudents_add);
         add.setOnClickListener(new View.OnClickListener() {
