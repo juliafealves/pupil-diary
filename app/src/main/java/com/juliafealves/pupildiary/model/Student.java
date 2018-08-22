@@ -62,4 +62,15 @@ public class Student implements Serializable {
     public String toString() {
         return this.id + " - " + this.name;
     }
+
+    /**
+     * Return the website formatted adding "http://" when necessary.
+     * @return Website formatted.
+     */
+    public String getWebsiteFormatted(){
+        if(!(this.website.startsWith("http://") || this.website.startsWith("https://")))
+           return "http://" + this.website;
+
+        return website;
+    }
 }
