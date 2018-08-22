@@ -1,6 +1,7 @@
 package com.juliafealves.pupildiary;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -10,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.juliafealves.pupildiary.dao.StudentDao;
 import com.juliafealves.pupildiary.model.Student;
@@ -51,24 +51,26 @@ public class ListStudentsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Student student = (Student) lvStudents.getItemAtPosition(info.position);
+
+        Intent intentVisit = new Intent(Intent.ACTION_VIEW);
+        intentVisit.setData(Uri.parse(student.getWebsiteFormatted()));
+        menu.add("Visit website").setIntent(intentVisit);
+
         menu.add("Remove").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Student student = (Student) lvStudents.getItemAtPosition(info.position);
+            StudentDao dao = new StudentDao(ListStudentsActivity.this);
+            dao.remove(student);
+            dao.close();
 
-                StudentDao dao = new StudentDao(ListStudentsActivity.this);
-                dao.remove(student);
-                dao.close();
+            createListStudents();
 
-                createListStudents();
-
-                return false;
+            return false;
             }
         });
-
-
     }
 
     @Override
